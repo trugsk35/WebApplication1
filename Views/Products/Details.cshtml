@@ -1,0 +1,56 @@
+﻿@model WebApplication1.Models.ProductsDetailsViewModel
+
+@{
+	ViewBag.Title = "Details";
+}
+
+<blockquote>
+	<h3>明細</h3>
+</blockquote>
+<hr />
+<div style="background-color:aliceblue">
+	<table class="table table-bordered">
+		<tr class="info">
+			<td>@Html.DisplayNameFor(model => model.ProductName)</td>
+			<td>@Html.DisplayFor(model => model.ProductName)</td>
+		</tr>
+		<tr>
+			<td>@Html.DisplayNameFor(model => model.Categories.CategoryName)</td>
+			<td>@Html.DisplayFor(model => model.Categories.CategoryName)</td>
+		</tr>
+		<tr>
+			<td>@Html.DisplayNameFor(model => model.Suppliers.CompanyName)</td>
+			<td>@Html.DisplayFor(model => model.Suppliers.CompanyName)</td>
+		</tr>
+		<tr>
+			<td class="info">@Html.DisplayNameFor(model => model.QuantityPerUnit)</td>
+			<td>@Html.DisplayFor(model => model.QuantityPerUnit)</td>
+		</tr>
+		<tr>
+			<td class="info">@Html.DisplayNameFor(model => model.UnitPrice)</td>
+			<td>@Html.DisplayFor(model => model.UnitPrice)</td>
+
+		</tr>
+		<tr>
+			<td class="info">@Html.DisplayNameFor(model => model.UnitsInStock)</td>
+			<td>@Html.DisplayFor(model => model.UnitsInStock)</td>
+		</tr>
+		<tr>
+			<td>@Html.DisplayNameFor(model => model.UnitsOnOrder)</td>
+			<td>@Html.DisplayFor(model => model.UnitsOnOrder)</td>
+		</tr>
+		<tr>
+			<td>@Html.DisplayNameFor(model => model.ReorderLevel)</td>
+			<td>@Html.DisplayFor(model => model.ReorderLevel)</td>
+		</tr>
+		<tr>
+			<td>@Html.DisplayNameFor(model => model.Discontinued)</td>
+			<td>@Html.DisplayFor(model => model.Discontinued)</td>
+		</tr>
+
+	</table>
+</div>
+<P>
+	@Html.ActionLink("回到產品列表", "Index", null, new { @class = "btn btn-warning" })
+	@Html.ActionLink("編輯", "Edit", new { id = Model.ProductID }, new { @class = "btn btn-primary" })
+</P>

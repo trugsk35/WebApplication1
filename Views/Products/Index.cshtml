@@ -1,0 +1,137 @@
+﻿@model WebApplication1.Models.ProductIndexViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+@section head {
+    <style>
+        .divtitle {
+            background-color: azure;
+            text-align: center;
+        }
+
+        .seachbut {
+            background-color: orangered;
+        }
+    </style>
+}
+
+<div class="divtitle row">
+    <div class="col-md-3 col-md-offset-4">
+        <h1>產品列表</h1>
+    </div>
+</div>
+
+@*<div class="row">*@
+<div>
+	@Html.ActionLink("新增", "Create", null, new { @class = "btn btn-success" })
+	<input type="button" value="搜尋" id="ShowQuery" class=" btn btn-success" />
+</div>
+@using (Html.BeginForm("Index", "Products", FormMethod.Post, new { @id = "from1" }))
+{
+    @Html.AntiForgeryToken()
+<div id="Querydiv" style="background-color:burlywood" hidden>
+	<div class="form-group">
+		@Html.LabelFor(model => model.SupplierID, htmlAttributes: new { @class = "control-label col-md-2" })
+		@Html.DropDownList("SupplierID", null, "請選擇", htmlAttributes: new { @class = "form-control" })
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
+		@Html.DropDownList("CategoryID", null, "請選擇", htmlAttributes: new { @class = "form-control" })
+	</div>
+	<div class="form-group">
+		@Html.Label("產品名稱", htmlAttributes: new { @class = "control-label col-md-2" })
+		<input class="form-control" name="keyWord" value="@Model.KeyWord" placeholder="輸入欲搜尋產品名稱">
+		<div class="btn btn-default" onclick="fromsubmit()">
+			<span class="glyphicon glyphicon-search"></span>
+		</div>
+	</div>	
+</div>
+
+    @*</div>*@
+    <br />
+
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>@Html.LabelFor(model => model.Products.FirstOrDefault().ProductName)</th>
+                    <th>@Html.LabelFor(model => model.Products.FirstOrDefault().QuantityPerUnit)</th>
+                    <th>@Html.LabelFor(model => model.Products.FirstOrDefault().UnitPrice)</th>
+                    <th>@Html.LabelFor(model => model.Products.FirstOrDefault().UnitsInStock)</th>
+                    <th>@Html.LabelFor(model => model.Products.FirstOrDefault().UnitsOnOrder)</th>
+                    <th>@Html.LabelFor(model => model.Products.FirstOrDefault().ReorderLevel)</th>
+                    <th>@Html.LabelFor(model => model.Products.FirstOrDefault().Discontinued)</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            @foreach (var item in Model.Products)
+            {
+                <tbody>
+					<tr>
+						<td>@item.ProductName</td>
+						<td>@item.QuantityPerUnit</td>
+						<td>@item.UnitPrice</td>
+						<td>@item.UnitsInStock</td>
+						<td>@item.UnitsOnOrder</td>
+						<td>@item.ReorderLevel</td>
+						<td>@item.Discontinued</td>
+						@if (item.ProductID != 0)
+						{
+							<td>
+								@Html.ActionLink("編輯", "Edit", new { id = item.ProductID }, new { @class = "btn btn-primary" })
+								@Html.ActionLink("明細", "Details", new { id = item.ProductID }, new { @class = "btn btn-default" })
+								@Html.ActionLink("刪除", "Edit", new { id = item.ProductID }, new { @class = "btn btn-danger" })
+							</td>
+						}
+					</tr>
+                </tbody>
+            }
+        </table>
+    </div>
+    <div class="row">
+        @for (var page = 1; page <= ViewBag.totalpages + 1; page++)
+        {
+            if (page == ViewBag.IndexPage)
+            {
+                <input type="button" value=@page class="btn btn-success" />
+            }
+            else
+            {
+                @*<input type="submit" name="pageInex" value=@page class="btn btn-default" />*@
+                <input type="submit" class="btn btn-default" name="@Html.NameFor(m=>m.PageInex)" value=@page />
+                @*@Html.ActionLink(page.ToString(), "Index", new { pageInex = page }, new { @class = "btn btn-default" })*@
+            }
+        }
+    </div>
+}
+
+@section Scripts {
+    <script>
+		$(document).ready(function () {
+
+			@* 搜尋按鈕事件 *@
+			$("#ShowQuery").click(function () {				
+				$("#Querydiv").toggle();
+				if ($("#Querydiv").is(":hidden")) {
+					@*搜尋條件還原*@
+					$('#SupplierID').val('');
+					$('#CategoryID').val('');
+					$("input[name='keyWord']").val('');
+					$("#ShowQuery").val("搜尋");
+					fromsubmit();
+				} else {
+					$("#ShowQuery").val("關閉搜尋");
+				}
+			});
+
+
+		})
+
+		@* 提交表單 *@
+        function fromsubmit() {
+            $('#from1').submit();
+			}
+    </script>
+}

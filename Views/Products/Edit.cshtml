@@ -1,0 +1,115 @@
+﻿@model WebApplication1.Models.ProductsEditViewModel
+@{
+	ViewBag.Title = "Edit";
+}
+<blockquote>
+	<h3>編輯</h3>
+</blockquote>
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		<div style="background-color:aliceblue">
+			<hr />
+			@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+			@Html.HiddenFor(model => model.ProductID)
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.TextBoxFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.SupplierID, "供應商", htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.DropDownList("SupplierID", null, htmlAttributes: new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.CategoryID, "類別", htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.QuantityPerUnit, htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.TextBoxFor(model => model.QuantityPerUnit, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.QuantityPerUnit, "", new { @class = "text-danger" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.TextBoxFor(model => model.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.UnitsInStock, htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.TextBoxFor(model => model.UnitsInStock, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.UnitsInStock, "", new { @class = "text-danger" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.UnitsOnOrder, htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.TextBoxFor(model => model.UnitsOnOrder, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.UnitsOnOrder, "", new { @class = "text-danger" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.ReorderLevel, htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.TextBoxFor(model => model.ReorderLevel, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.ReorderLevel, "", new { @class = "text-danger" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.Discontinued, htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					<div class="checkbox">
+						@Html.RadioButtonFor(model => model.Discontinued, true) 停售
+						@Html.RadioButtonFor(model => model.Discontinued, false) 不停售
+						@Html.ValidationMessageFor(model => model.Discontinued, "", new { @class = "text-danger" })
+					</div>
+				</div>
+			</div>
+			<hr />
+		</div>
+		<div class="form-group">
+			<div class="col-md-10">
+				@Html.ActionLink("回到產品列表", "Index", null, new { @class = "btn btn-warning" })
+				<input type="submit" value="儲存" class="btn btn-primary" />
+				@Html.ActionLink("刪除", "Delete", "Products", new { onclick = "Submit();", @class = "btn btn-danger" })
+			</div>
+		</div>
+	</div>
+}
+
+@section Scripts {
+	<script>
+		function Submit() {
+			if (confirm("你確定要刪除 ?")) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	</script>
+}
